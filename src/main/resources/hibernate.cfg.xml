@@ -1,21 +1,18 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
-
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
+  <session-factory>
+    <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/first</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">root</property>
+    <property name="hbm2ddl.auto">update</property>
 
-    <session-factory>
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/root</property>
-        <property name="connection.username">root</property>
-        <property name="connection.password">root</property>
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.characterEncoding">utf8</property>
-        <property name="show_sql">true</property>
-        <mapping resource="com/admin/admin.hbm.xml" />
-
-
-    </session-factory>
-
+    <mapping resource="com/up/dao/StudentEntity.hbm.xml"/>
+    <mapping class="com.up.dao.StudentEntity"/>
+    <!-- <mapping class="com.up.dao.StudentEntity"/>-->
+  </session-factory>
 </hibernate-configuration>
