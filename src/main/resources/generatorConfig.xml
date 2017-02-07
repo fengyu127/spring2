@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/first"
+                        userId="root"
+                        password="root">
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.up.mybatis.model" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!--生成SQLMAP文件 -->
+        <sqlMapGenerator targetPackage="com.up.mybatis.map"  targetProject="src/main/java">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+        <!--生成Dao文件 可以配置 type="XMLMAPPER"生成xml的dao实现  context id="DB2Tables" 修改targetRuntime="MyBatis3"  -->
+
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.up.mybatis.dao" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        <table schema="first" tableName="student" >
+        </table>
+    </context>
+</generatorConfiguration>
