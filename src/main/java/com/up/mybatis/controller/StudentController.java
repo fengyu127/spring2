@@ -17,19 +17,24 @@ import java.io.IOException;
  * Created by Administrator on 2017/2/7.
  */
 @Controller
-@RequestMapping(value="student")
+@RequestMapping(value = "student")
 public class StudentController {
 
-    private static Log logger = LogFactory.getLog(com.up.controller.controller.class);
+    private static Log logger = LogFactory.getLog(StudentController.class);
 
     @Resource
-    private   IStudentService IStudentService;
+    private IStudentService IStudentService;
 
     @RequestMapping(value = "getbyid")
-    public @ResponseBody  String jumpToIndex(@RequestBody String req, HttpServletResponse response) throws IOException {
-        int id= Integer.valueOf(req);
-        Student student=IStudentService.getStudentByid(id);
+    public
+    @ResponseBody
+    String jumpToIndex(@RequestBody String req, HttpServletResponse response) throws IOException {
+        logger.info(req);
+        int id = Integer.valueOf(req);
+        Student student = IStudentService.getStudentByid(id);
+        logger.info(student.getName());
         return student.getName();
+
     }
 }
 

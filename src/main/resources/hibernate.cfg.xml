@@ -10,7 +10,6 @@
     <property name="connection.username">root</property>
     <property name="connection.password">root</property>
     <property name="hbm2ddl.auto">update</property>
-
     <mapping resource="com/up/dao/StudentEntity.hbm.xml"/>
     <mapping class="com.up.dao.StudentEntity"/>
     <!-- <mapping class="com.up.dao.StudentEntity"/>-->
