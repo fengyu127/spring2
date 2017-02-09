@@ -1,5 +1,6 @@
 package com.up.mybatis.controller;
 
+import com.google.gson.Gson;
 import com.up.mybatis.model.Student;
 import com.up.mybatis.service.IStudentService;
 import org.apache.commons.logging.Log;
@@ -25,7 +26,7 @@ public class StudentController {
     @Resource
     private IStudentService IStudentService;
 
-    @RequestMapping(value = "getbyid")
+    @RequestMapping(value = "getbyid" , produces = "application/json; charset=utf-8")
     public
     @ResponseBody
     String jumpToIndex(@RequestBody String req, HttpServletResponse response) throws IOException {
@@ -33,8 +34,17 @@ public class StudentController {
         int id = Integer.valueOf(req);
         Student student = IStudentService.getStudentByid(id);
         logger.info(student.getName());
-        return student.getName();
+        Gson gson=new Gson();
+        return gson.toJson(student );
+    }
 
+    @RequestMapping(value = "setclazz" )
+    public
+    @ResponseBody
+    void setclazz(@RequestBody String req, HttpServletResponse response) throws IOException {
+        logger.info(req);
+        int id = Integer.valueOf(req);
+        int  student = IStudentService.setclazzById(id);
     }
 }
 

@@ -43,4 +43,10 @@ mybatis生成dao包等配置见generatorConfig.xml
 maven命令：mybatis-generator:generate
 
 
+使用postman请求是中文未乱码，html请求时中文乱码
+@RequestMapping(value = "getbyid" , produces = "application/json; charset=utf-8")
+
+
+
+
 

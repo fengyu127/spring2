@@ -8,4 +8,5 @@ import com.up.mybatis.model.Student;
 public interface IStudentService {
 
     public Student getStudentByid(int Id);
+    public  int setclazzById(int id);
 }

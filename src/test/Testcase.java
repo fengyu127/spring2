@@ -1,10 +1,10 @@
-import com.up.mybatis.model.Student;
-import com.up.mybatis.service.IStudentService;
+import com.up.mybatis.dao.StudentMapper;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import javax.annotation.Resource;
 
 /**
@@ -17,8 +17,10 @@ import javax.annotation.Resource;
     public class Testcase {
         private static Logger logger = Logger.getLogger(Testcase.class);
         //  private ApplicationContext ac = null;
+
+
         @Resource
-        private IStudentService IStudentService = null;
+        private StudentMapper StudentMapper;
 
 //  @Before
 //  public void before() {
@@ -28,10 +30,10 @@ import javax.annotation.Resource;
 
         @Test
         public void test1() {
-            Student Student = IStudentService.getStudentByid(4);
+            String d=StudentMapper.getclazzbyid(4);
             // System.out.println(user.getUserName());
             // logger.info("值："+user.getUserName());
-            logger.info(Student.getName());
+             System.out.println(d);
         }
     }
 

@@ -19,4 +19,10 @@ public class StudentServeceImpl implements IStudentService {
     public Student getStudentByid(int Id) {
         return this.mapper.selectByPrimaryKey(Id);
     }
+
+    @Override
+    public  int setclazzById(int id)
+    {
+        return this.mapper.updateclazzById(id);
+    }
 }
