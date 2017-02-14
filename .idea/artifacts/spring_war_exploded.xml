@@ -39,6 +39,8 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-test:4.3.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.4.2" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.6" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
+          <element id="library" level="project" name="Maven: org.json:json:20160810" />
         </element>
       </element>
       <element id="directory" name="META-INF">
