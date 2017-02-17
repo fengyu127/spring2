@@ -99,4 +99,5 @@ public interface StudentMapper {
 
     String getclazzbyid(int id);
 
+    List<Student> getAllStudent();
 }

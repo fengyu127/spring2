@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+
+    <!-- Latest compiled and minified Locales -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
+    <title>Title</title>
+
+</head>
+<body>
+<table id="table"
+       data-toggle="table"
+       data-toolbar="#toolbar"
+       data-height="460"
+>
+</table>
+<script>
+    var pp;
+    $('#table').bootstrapTable({
+        url: '/student/slist',
+        columns: [{
+            field: 'id',
+            title: 'Item ID'
+        }, {
+            field: 'name',
+            title: 'Item Name'
+        }],
+        onClickRow:function (row,$element,field) {
+            $element.css("background-color", "green");
+            $element.attr("align","right");
+            
+        },
+        onClickCell:function (field, value, row, $element) {
+            $element.css("background-color", "red");
+            alert(value);
+            alert(row.clazz);
+        }
+    });
+</script>
+
+
+</body>
+</html>

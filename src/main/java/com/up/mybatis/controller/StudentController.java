@@ -5,14 +5,18 @@ import com.up.mybatis.model.Student;
 import com.up.mybatis.service.IStudentService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/2/7.
@@ -26,7 +30,7 @@ public class StudentController {
     @Resource
     private IStudentService IStudentService;
 
-    @RequestMapping(value = "getbyid" , produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "getbyid", produces = "application/json; charset=utf-8")
     public
     @ResponseBody
     String jumpToIndex(@RequestBody String req, HttpServletResponse response) throws IOException {
@@ -34,17 +38,83 @@ public class StudentController {
         int id = Integer.valueOf(req);
         Student student = IStudentService.getStudentByid(id);
         logger.info(student.getName());
-        Gson gson=new Gson();
-        return gson.toJson(student );
+        Gson gson = new Gson();
+        return gson.toJson(student);
     }
 
-    @RequestMapping(value = "setclazz" )
+    @RequestMapping(value = "setclazz")
     public
     @ResponseBody
     void setclazz(@RequestBody String req, HttpServletResponse response) throws IOException {
         logger.info(req);
         int id = Integer.valueOf(req);
-        int  student = IStudentService.setclazzById(id);
+        int student = IStudentService.setclazzById(id);
     }
+
+    @RequestMapping(value = "slist" ,produces = "application/json; charset=utf-8")
+    public
+    @ResponseBody
+    String getAllStudent() throws IOException {
+        List<Student> students = IStudentService.getAllStudent();
+        Gson gson = new Gson();
+        return gson.toJson(students);
+    }
+
+    @RequestMapping("Index")
+    public String index(HttpServletRequest req, HttpServletResponse res) {
+        Cookie [] cookies =req.getCookies();
+        if(cookies[0].getName().equals("istable"))
+        {
+            String value=cookies[0].getValue();
+            if(value.equals("index"))
+            {
+                Cookie cookie = new Cookie("istable","second");
+                res.addCookie(cookie);
+                return "second";
+            }
+            else
+            {
+                Cookie cookie = new Cookie("istable","index");
+                res.addCookie(cookie);
+                return "index";
+            }
+        }
+        else
+        {
+            Cookie cookie = new Cookie("istable","second");
+            res.addCookie(cookie);
+            return "second";
+        }
+
+
+    }
+
+
+    @RequestMapping("table")
+    public
+    @ResponseBody
+    String table() {
+
+        String s = "[\n" +
+                "  {\n" +
+                "    field: \"id\",\n" +
+                "    title: \"ID\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    field: \"name\",\n" +
+                "    title: \"姓名\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    field: \"clazz\",\n" +
+                "    title: \"班级\"\n" +
+                "  }\n" +
+                "]";
+        JSONArray o = new JSONArray(s);
+        logger.info("ddd");
+        return o.toString();
+
+    }
+
+
 }
 

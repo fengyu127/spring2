@@ -6,6 +6,7 @@ import com.up.mybatis.service.IStudentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/2/7.
@@ -15,14 +16,19 @@ public class StudentServeceImpl implements IStudentService {
 
     @Resource
     private StudentMapper mapper;
+
     @Override
     public Student getStudentByid(int Id) {
         return this.mapper.selectByPrimaryKey(Id);
     }
 
     @Override
-    public  int setclazzById(int id)
-    {
+    public int setclazzById(int id) {
         return this.mapper.updateclazzById(id);
+    }
+
+    @Override
+    public List<Student> getAllStudent() {
+        return this.mapper.getAllStudent();
     }
 }

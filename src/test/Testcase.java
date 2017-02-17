@@ -1,27 +1,31 @@
 import com.up.mybatis.dao.StudentMapper;
+import com.up.mybatis.model.Student;
 import com.up.utils.Encrypt;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/2/7.
  */
 
-    @RunWith(SpringJUnit4ClassRunner.class)     //表示继承了SpringJUnit4ClassRunner类
-    @ContextConfiguration(locations = {"classpath:spring-mybatis.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)     //表示继承了SpringJUnit4ClassRunner类
+@ContextConfiguration(locations = {"classpath:spring-mybatis.xml"})
 
-    public class Testcase {
-        private static Logger logger = Logger.getLogger(Testcase.class);
-        //  private ApplicationContext ac = null;
+public class Testcase {
+    private static Logger logger = Logger.getLogger(Testcase.class);
+    //  private ApplicationContext ac = null;
 
 
-        @Resource
-        private StudentMapper StudentMapper;
+    @Resource
+    private StudentMapper StudentMapper;
 
 //  @Before
 //  public void before() {
@@ -29,9 +33,9 @@ import javax.annotation.Resource;
 //      userService = (IUserService) ac.getBean("userService");
 //  }
 
-        @Test
-        public void test1() {
-            try {
+
+    public void test1() {
+        try {
          /*       String sign=Encrypt.rsaSignEncypt("1234", "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKv1J/zvyBvfY7/F\n" +
                         "cJscFbkspqQYHwM1raa2fU9RlTVlnqEalf0RMyFpw14yK1xpFd+60e56nCO61sR3\n" +
                         "UQ8Xj4PQ1IAaWG9tzMu2PUYy+H4oJgBsUugi4yE9X+vzfTEdkVTuVcb+OEAapvWC\n" +
@@ -53,17 +57,33 @@ import javax.annotation.Resource;
                         "XGWO7JhDafBUNyucmQIDAQAB"));*/
 
 
-             String  encryptinfo= Encrypt.aesEncrypt("1e234","UPUuGtOB/TYtPX432HOf7g==","utf-8");
+            String encryptinfo = Encrypt.aesEncrypt("1e234", "UPUuGtOB/TYtPX432HOf7g==", "utf-8");
 
-             String  encryptinfo2= Encrypt.aesUnEncrypt(encryptinfo,"UPUuGtOB/TYtPX432HOf7g==","utf-8");
-             System.out.print(encryptinfo2);
+            String encryptinfo2 = Encrypt.aesUnEncrypt(encryptinfo, "UPUuGtOB/TYtPX432HOf7g==", "utf-8");
+            System.out.print(encryptinfo2);
 
 
-            }
-            catch(Exception e)
-            {
-                System.out.print(e.getMessage());
-            }
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
         }
     }
+
+
+    @Test
+    public void test2() {
+        List<Student> s = new ArrayList<>();
+        Student Student1 = new Student();
+        Student1.setClazz("ff");
+        Student1.setId(3);
+        Student Student12 = new Student();
+        Student12.setClazz("ff");
+        Student12.setId(3);
+        s.add(Student1);
+        s.add(Student12);
+        String str = "[{name:'a',value:'aa'},{name:'b',value:'bb'},{name:'c',value:'cc'},{name:'d',value:'dd'}]";
+        JSONArray o = new JSONArray(s);
+        System.out.println(o.toString());
+        ;
+    }
+}
 
