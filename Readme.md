@@ -55,3 +55,4 @@ maven命令：mybatis-generator:generate
 
 http://runjs.cn/code/lrufabfi
 http://jsrun.net/tGpKp/edit
+http://es6.ruanyifeng.com/#README
