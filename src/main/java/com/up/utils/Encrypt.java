@@ -72,7 +72,7 @@ public class Encrypt {
 
 
     public static HashMap<String, String> jsontoHashmap(Object object) {
-        HashMap<String, String> data = new HashMap<>();
+        HashMap<String, String> data = new HashMap<String, String>();
         JSONObject o = new JSONObject(object);
         Iterator Iterator = o.keys();
         while (Iterator.hasNext()) {

@@ -17,16 +17,17 @@
 
 </head>
 <body>
-<table id="table"
-       data-toggle="table"
-       data-toolbar="#toolbar"
-       data-height="460"
->
-</table>
+<div class="container" width="100%" height="400">
+    <table id="table"
+           data-toggle="table"
+           data-toolbar="#toolbar"
+    >
+    </table>
+</div>
 <script>
     var pp;
     $('#table').bootstrapTable({
-        url: '/student/slist',
+        url: '/spring/student/slist',
         columns: [{
             field: 'id',
             title: 'Item ID'
@@ -34,12 +35,12 @@
             field: 'name',
             title: 'Item Name'
         }],
-        onClickRow:function (row,$element,field) {
+        onClickRow: function (row, $element, field) {
             $element.css("background-color", "green");
-            $element.attr("align","right");
-            
+            $element.attr("align", "right");
+
         },
-        onClickCell:function (field, value, row, $element) {
+        onClickCell: function (field, value, row, $element) {
             $element.css("background-color", "red");
             alert(value);
             alert(row.clazz);

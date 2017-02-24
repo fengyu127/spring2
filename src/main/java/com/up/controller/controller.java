@@ -49,7 +49,7 @@ public class controller {
         session.save(studentEntity);
         // 5.提交事务
         transaction.commit();
-        // 6.关闭 Session
+        // 6.关闭 Sessio
         session.close();
 
         // 7.关闭 SessionFactory

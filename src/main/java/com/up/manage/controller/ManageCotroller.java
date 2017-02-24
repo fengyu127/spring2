@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ManageCotroller {
 
     @RequestMapping("Index")
-    public String index()
-    {
+    public String index() {
         return "main/index";
     }
 }

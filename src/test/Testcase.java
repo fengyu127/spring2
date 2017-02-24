@@ -1,10 +1,16 @@
+import com.google.gson.Gson;
+import com.up.manage.model.TreeManage;
+import com.up.manage.service.ImanageService;
 import com.up.mybatis.dao.StudentMapper;
 import com.up.mybatis.model.Student;
+import com.up.mybatis.service.IStudentService;
 import com.up.utils.Encrypt;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -21,17 +27,21 @@ import java.util.List;
 
 public class Testcase {
     private static Logger logger = Logger.getLogger(Testcase.class);
-    //  private ApplicationContext ac = null;
+    // private ApplicationContext ac = null;
 
+
+    private ApplicationContext applicationContext;
 
     @Resource
     private StudentMapper StudentMapper;
 
-//  @Before
-//  public void before() {
-//      ac = new ClassPathXmlApplicationContext("applicationContext.xml");
-//      userService = (IUserService) ac.getBean("userService");
-//  }
+    @Resource
+    private ImanageService manageService;
+/*  @Before
+  public void before() {
+      ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+      userService = (IUserService) ac.getBean("userService");
+  }*/
 
 
     public void test1() {
@@ -68,10 +78,26 @@ public class Testcase {
         }
     }
 
+    @Test
+    public void test3() {
+        applicationContext = new ClassPathXmlApplicationContext("spring-mybatis.xml");
+
+        IStudentService IStudentService = (IStudentService) this.applicationContext.getBean("IStudentService");
+        Student student = IStudentService.getStudentByid(0);
+        System.out.println(student.getClazz());
+      /*       Map<String, IStudentService> beans = this.applicationContext.getBeansOfType(IStudentService.class);
+       for (Map.Entry<String, IStudentService> entry : beans.entrySet())
+       {
+           IStudentService IStudentService=beans.get(entry);
+           Student student=IStudentService.getStudentByid(0);
+           System.out.println(student.getClazz()+entry);
+       }
+*/
+    }
 
     @Test
     public void test2() {
-        List<Student> s = new ArrayList<>();
+        List<Student> s = new ArrayList<Student>();
         Student Student1 = new Student();
         Student1.setClazz("ff");
         Student1.setId(3);
@@ -84,6 +110,14 @@ public class Testcase {
         JSONArray o = new JSONArray(s);
         System.out.println(o.toString());
         ;
+    }
+
+
+    @Test
+    public void test4() {
+        TreeManage TreeManage = manageService.getallManagebyid(0);
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(TreeManage));
     }
 }
 

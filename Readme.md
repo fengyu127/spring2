@@ -48,5 +48,10 @@ maven命令：mybatis-generator:generate
 
 
 
+       applicationContext=new ClassPathXmlApplicationContext("spring-mybatis.xml");
+       IStudentService IStudentService=(IStudentService)this.applicationContext.getBean("IStudentService");
+       Student student=IStudentService.getStudentByid(0);
+       System.out.println(student.getClazz());
 
-
+http://runjs.cn/code/lrufabfi
+http://jsrun.net/tGpKp/edit

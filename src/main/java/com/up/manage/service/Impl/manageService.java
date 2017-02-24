@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Administrator on 2017/2/21.
  */
 @Service
-public class manageService implements ImanageService{
+public class manageService implements ImanageService {
 
     @Resource
     private ManageMapper manageMapper;
@@ -30,24 +30,21 @@ public class manageService implements ImanageService{
     }
 
 
-
     @Override
     public TreeManage getallManagebyid(int id) {
-          Manage manage=this.getManagebyid(id);
-          List<Manage> manages=this.getManagebyPid(id);
-          TreeManage treeManage=new TreeManage();
-          List<TreeManage> treeManages=new ArrayList<TreeManage>();
-          if(manages.size()!=0)
-          {
-              for(int i=0;i<manages.size();i++)
-              {
-                  TreeManage treeManage1=new TreeManage();
-                  treeManage1=getallManagebyid(manages.get(i).getId());
-                  treeManages.add(treeManage1);
-              }
-          }
-          treeManage.setList(treeManages);
-          treeManage.setManage(manage);
-          return treeManage;
+        Manage manage = this.getManagebyid(id);
+        List<Manage> manages = this.getManagebyPid(id);
+        TreeManage treeManage = new TreeManage();
+        List<TreeManage> treeManages = new ArrayList<TreeManage>();
+        if (manages.size() != 0) {
+            for (int i = 0; i < manages.size(); i++) {
+                TreeManage treeManage1 = new TreeManage();
+                treeManage1 = getallManagebyid(manages.get(i).getId());
+                treeManages.add(treeManage1);
+            }
+        }
+        treeManage.setList(treeManages);
+        treeManage.setManage(manage);
+        return treeManage;
     }
 }

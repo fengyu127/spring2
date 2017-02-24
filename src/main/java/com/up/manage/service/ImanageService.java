@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface ImanageService {
     public Manage getManagebyid(int id);
+
     public List<Manage> getManagebyPid(int pid);
+
     public TreeManage getallManagebyid(int id);
 }
