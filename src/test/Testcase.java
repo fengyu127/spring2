@@ -1,12 +1,21 @@
 import com.google.gson.Gson;
+import com.up.dao.Request;
 import com.up.manage.model.TreeManage;
 import com.up.manage.service.ImanageService;
 import com.up.mybatis.dao.StudentMapper;
 import com.up.mybatis.model.Student;
 import com.up.mybatis.service.IStudentService;
 import com.up.utils.Encrypt;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
@@ -16,6 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -67,7 +77,7 @@ public class Testcase {
                         "XGWO7JhDafBUNyucmQIDAQAB"));*/
 
 
-            String encryptinfo = Encrypt.aesEncrypt("1e234", "UPUuGtOB/TYtPX432HOf7g==", "utf-8");
+            String encryptinfo = Encrypt.aesEncrypt("1e234", "llv8IckTuVw1RqaD265wrw==", "utf-8");
 
             String encryptinfo2 = Encrypt.aesUnEncrypt(encryptinfo, "UPUuGtOB/TYtPX432HOf7g==", "utf-8");
             System.out.print(encryptinfo2);
@@ -119,5 +129,69 @@ public class Testcase {
         Gson gson = new Gson();
         System.out.println(gson.toJson(TreeManage));
     }
+
+
+    @Test
+    public void testqr() throws Exception {
+        Request request = new Request();
+        request.setVersion("1.0");
+        request.setEncoding("UTF-8");
+        request.setRequestId("11");
+        request.setExpandcode("10100000001");
+        request.setSignMethod("RSA");
+
+        String expandName = "test_admin";
+        String encryptedInfo = "";
+        String phoneNo = "13215264578";
+        Gson gson = new Gson();
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("phoneNo", phoneNo);
+
+        System.out.println(gson.toJson(map));
+        String s = Encrypt.aesEncrypt(gson.toJson(map), "llv8IckTuVw1RqaD265wrw==", "utf-8");
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("encryptedInfo", s);
+        jsonObject.put("expandName", "test_admin");
+        System.out.println(jsonObject.toString());
+        request.setBizContent(jsonObject.toString());
+
+        HashMap<String, String> hashMap = Encrypt.jsontoHashmap(request);
+        System.out.println(hashMap);
+        String signature = Encrypt.rsaSignEncypt(hashMap.toString(), "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAK6vfTpCl94zs9gn" +
+                "L9TGx9GBvORoduqr00MJ46wn6Y0HeCpwyBf1XelOyOM18GvKUOIgtm1CzyJ4fk5Y" +
+                "3R1Jv1JdOCDM+AZCwuVvYzc1yoEpbx01v7G2VM3cJNLFj/xCAVMrW0Jq02gty5WX" +
+                "LL9s3B5AYJOfTHvnqAfreogcx2UdAgMBAAECgYBpTG2PPe8vyTjCtjR17XEr0Cne" +
+                "AT6VjQfnJEHyV4jIM1VzN9LV5lk6tvwPQkdvomAJPzDYQep8W+e/MH/xFLBXZTnQ" +
+                "H0z6a8rG5F+Gtpg96rPYN+LZmXh3CvwiTEHimMqVEX7G/97ZUAbpKYzE6FX344QC" +
+                "mIMlHUHkHsNkLtLNYQJBAOLH8Gc/eXAqok6zMqGA5W/4+ND0+Q2r2mRToIY1z75J" +
+                "PfGgbZsfE/VSI+3Mm73RJkBzwfuS73qXs+TCc6mXehkCQQDFMUBMi3F6S10jYXBC" +
+                "g6eQauFOWBO8YPc66KB3bj511LNKNBXf8DLDoOuLaV09enCHNMsukImuq1GrcTZ9" +
+                "L6ulAkAhngfqFkO3N+q1heTkggoA7kRcHWRp/WazZp4uJv3ztEHFdsWosBOyUwnW" +
+                "b3VKzx0/gqln1KFBaAmXyKeCpVzJAkA5bimq4WXQV0it+D/or01LC0XJOm+tCpSW" +
+                "jI/HmM0KJkN9VgQU73DpduGC/dHRCOrjBeYzDpd6zpx/kP5soUidAkEAuyExg2te" +
+                "vtJ/EA87G3/EgIpFSxzD25mGAzKC0H7nyXbuO7Ho4WX5tN2ong7ifxgJjJvv6Zrt" +
+                "mg0oK+lMlnmpGg==", "utf-8");
+        request.setSignature(signature);
+
+
+        JSONObject json = new JSONObject(request);
+
+        String httpUrl="http://tdctest.95516.com/xwins/api/test ";
+        CloseableHttpClient httpclient  = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(httpUrl);
+        StringEntity StringEntity=new StringEntity(json.toString());
+        httpPost.setEntity(StringEntity);
+
+        CloseableHttpResponse response = httpclient.execute(httpPost);
+
+        HttpEntity entity = response.getEntity();
+        String result = EntityUtils.toString(entity, "UTF-8");
+        System.out.println(result);
+
+
+    }
+
+
 }
 

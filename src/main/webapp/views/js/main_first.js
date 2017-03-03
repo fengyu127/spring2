@@ -3,5 +3,5 @@
  */
 function loud() {
     var ifm = document.getElementById("myframe");
-    ifm.height = document.documentElement.clientHeight ;
+    ifm.height = document.documentElement.clientHeight;
 }
