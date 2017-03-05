@@ -14,9 +14,7 @@ import java.security.PublicKey;
 import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -31,7 +29,7 @@ public class Encrypt {
 
     public static List<String> ArrayOutofReq;
     public static String SIGN_ALGORITHMS = "SHA1WithRSA";
-    public static String out = "bizCtent1";
+    public static String out = "bizContent";
 
     public Encrypt() {
         //   ArrayOutofReq.add("bizContent");
@@ -70,7 +68,6 @@ public class Encrypt {
             IvParameterSpec IvParameterSpec = new IvParameterSpec(AES_IV);
             cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(Base64.decodeBase64(encryptKey), AES_ALG), IvParameterSpec);
             byte[] encryptByte = cipher.doFinal(Base64.decodeBase64(content));
-
             return new String(encryptByte, encryptCharset);
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,16 +79,44 @@ public class Encrypt {
     public static HashMap<String, String> jsontoHashmap(Object object) {
         HashMap<String, String> data = new HashMap<String, String>();
         JSONObject o = new JSONObject(object);
+
         Iterator Iterator = o.keys();
         while (Iterator.hasNext()) {
             String key = Iterator.next().toString();
             if (out.contains(key)) {
+
                 JSONObject o1 = o.getJSONObject(key);
                 data.put(key, o1.toString());
             } else if (!key.equals("signature")) {
                 String value = o.getString(key);
+
                 data.put(key, value);
             }
+        }
+        return data;
+    }
+
+    public  static  String sort(HashMap<String ,String> hashmap){
+        String data="";
+        List<String> list=new ArrayList<String>();
+        Iterator iterator=hashmap.keySet().iterator();
+        while(iterator.hasNext())
+        {
+            list.add(iterator.next().toString());
+        }
+        Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        for(int i=0;i<list.size();i++)
+        {
+
+           if(i<list.size()-1)
+               data=data+list.get(i)+"="+hashmap.get(list.get(i))+"&";
+            else if(i==list.size()-1)
+               data=data+list.get(i)+"="+hashmap.get(list.get(i));
         }
         return data;
     }
@@ -156,8 +181,7 @@ public class Encrypt {
         try {
             Cipher cipher = Cipher.getInstance(fullAlg);
             int blockSize = cipher.getBlockSize();
-            //int blockSize=128;
-            System.out.println(blockSize);
+
             byte[] iv = new byte[blockSize];
             for (int i = 0; i < blockSize; ++i) {
                 iv[i] = 0;

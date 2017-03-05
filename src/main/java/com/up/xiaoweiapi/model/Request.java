@@ -1,4 +1,8 @@
-package com.up.dao;
+package com.up.xiaoweiapi.model;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * Created by Administrator on 2017/3/2.
@@ -10,13 +14,13 @@ public class Request {
     private String requestId;
     private String expandcode;
     private String signMethod;
-    private String bizContent;
+    private JSONObject bizContent;
 
-    public String getBizContent() {
+    public JSONObject getBizContent() {
         return bizContent;
     }
 
-    public void setBizContent(String bizContent) {
+    public void setBizContent(JSONObject bizContent) {
         this.bizContent = bizContent;
     }
 
