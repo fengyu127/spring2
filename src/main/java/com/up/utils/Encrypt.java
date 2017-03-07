@@ -79,29 +79,30 @@ public class Encrypt {
     public static HashMap<String, String> jsontoHashmap(Object object) {
         HashMap<String, String> data = new HashMap<String, String>();
         JSONObject o = new JSONObject(object);
-
         Iterator Iterator = o.keys();
         while (Iterator.hasNext()) {
             String key = Iterator.next().toString();
             if (out.contains(key)) {
-
                 JSONObject o1 = o.getJSONObject(key);
-                data.put(key, o1.toString());
+                Iterator iterator = o1.keys();
+                while (iterator.hasNext()) {
+                    String key1 = iterator.next().toString();
+                    String value = o1.getString(key1);
+                    data.put(key1, value);
+                }
             } else if (!key.equals("signature")) {
                 String value = o.getString(key);
-
                 data.put(key, value);
             }
         }
         return data;
     }
 
-    public  static  String sort(HashMap<String ,String> hashmap){
-        String data="";
-        List<String> list=new ArrayList<String>();
-        Iterator iterator=hashmap.keySet().iterator();
-        while(iterator.hasNext())
-        {
+    public static String sort(HashMap<String, String> hashmap) {
+        String data = "";
+        List<String> list = new ArrayList<String>();
+        Iterator iterator = hashmap.keySet().iterator();
+        while (iterator.hasNext()) {
             list.add(iterator.next().toString());
         }
         Collections.sort(list, new Comparator<String>() {
@@ -110,13 +111,12 @@ public class Encrypt {
                 return o1.compareTo(o2);
             }
         });
-        for(int i=0;i<list.size();i++)
-        {
+        for (int i = 0; i < list.size(); i++) {
 
-           if(i<list.size()-1)
-               data=data+list.get(i)+"="+hashmap.get(list.get(i))+"&";
-            else if(i==list.size()-1)
-               data=data+list.get(i)+"="+hashmap.get(list.get(i));
+            if (i < list.size() - 1)
+                data = data + list.get(i) + "=" + hashmap.get(list.get(i)) + "&";
+            else if (i == list.size() - 1)
+                data = data + list.get(i) + "=" + hashmap.get(list.get(i));
         }
         return data;
     }
@@ -134,7 +134,6 @@ public class Encrypt {
     public static String rsaSignEncypt(String content, String encryptKey, String encryptCharset) throws AesEncyption {
         try {
             PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decodeBase64(encryptKey));
-
             KeyFactory keyf = KeyFactory.getInstance("RSA");
             PrivateKey priKey = keyf.generatePrivate(priPKCS8);
             Signature signature = Signature.getInstance(SIGN_ALGORITHMS);
@@ -152,19 +151,14 @@ public class Encrypt {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             byte[] encodedKey = Base64.decodeBase64(publicKey);
             PublicKey pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(encodedKey));
-
-
             java.security.Signature signature = Signature
                     .getInstance(SIGN_ALGORITHMS);
-
             signature.initVerify(pubKey);
             signature.update(content.getBytes("utf-8"));
-
             boolean bverify = signature.verify(Base64.decodeBase64(sign));
             return bverify;
-
         } catch (Exception e) {
-            throw new AesEncyption("验签失败" + e.getMessage());
+            throw new AesEncyption("验签失败" + e.getMessage()+e.getStackTrace());
         }
     }
 

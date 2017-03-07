@@ -2,8 +2,6 @@ package com.up.xiaoweiapi.model;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-
 /**
  * Created by Administrator on 2017/3/2.
  */
