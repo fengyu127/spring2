@@ -53,6 +53,14 @@ public class Baseapi implements IBaseApi {
             "mg0oK+lMlnmpGg==";
 
 
+    private String pubUpKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCur306Qpfe" +
+            "M7PYJy/UxsfRgbzkaHbqq9NDCeOsJ+mNB3gqcMgX9V3pTsjjNfBrylDiILZtQs8ie" +
+            "H5OWN0dSb9SXTggzPgGQsLlb2M3NcqBKW8dNb+xtlTN3CTSxY/8QgFTK1tCatNoLc" +
+            "uVlyy/bNweQGCTn0x756gH63qIHMdlHQIDAQAB";//银联的公钥
+
+
+
+
 
    /* private String baseUrl = "https://smbp.95516.com/xwins/gateway/";
     private  String testAeseyConst="Uh2uG00UsAF3HYcg3UxJkQ==";
@@ -80,12 +88,11 @@ public class Baseapi implements IBaseApi {
      */
     @Override
     public void sortAndSign() throws Exception {
-        HashMap<String, String> hashMap = Encrypt.jsontoHashmap(request);
+        HashMap<String, String> hashMap = Encrypt.jsonToHashMap(request);
         String ss = Encrypt.sort(hashMap);
         System.out.println(ss);
         String signature = Encrypt.rsaSignEncypt(ss, privateKay, "utf-8");
         request.setSignature(signature);
-
     }
 
     /**
@@ -173,8 +180,10 @@ public class Baseapi implements IBaseApi {
     public boolean checkSignature(String s) throws Exception {
         JSONObject jsonObject = new JSONObject(s);
         String signature = jsonObject.get("signature").toString();
-        jsonObject.remove("signature");
-        return Encrypt.rsaUnSign(jsonObject.toString(), signature, privateKay);
+        HashMap<String, String> map = Encrypt.jsonToHashMap(s);
+        String data = Encrypt.sort(map);
+        System.out.println(data);
+        return Encrypt.rsaUnSign(data, signature, pubUpKey);
     }
 
 
@@ -194,6 +203,17 @@ public class Baseapi implements IBaseApi {
         System.out.println(s);
         System.out.println(checkSignature(s));
         return "";
+    }
+
+    public void test() throws Exception{
+        String s="{\"encoding\":\"UTF-8\",\"respCode\":\"10000\",\"respMsg\":\"成功\",\"signMethod\":\"RSA\",\"signature\":\"E45ulJxwXOZopnGRlQB2aw0e9y+CcD8OFVvOpTa1Rp6OXEhefObgm3EuMKAfceUrac7FuFE/D3U3/D3dBqseb8Zccte2kpGnrbc55wbTXGg6STaWXC3uo6DtEpm8+pXTWkf56MFRAcqu8X29Nye5kJJGQaA9fqPyjZb2SyRrrm4=\",\"smsId\":\"00002439\",\"version\":\"1.0\"}";
+        JSONObject j=new JSONObject(s);
+        System.out.println(j.toString());
+        HashMap<String, String> hashMap = Encrypt.jsonToHashMap(j.toString());
+        String ss = Encrypt.sort(hashMap);
+        System.out.println(ss);
+        String signature = Encrypt.rsaSignEncypt(ss, privateKay, "utf-8");
+        System.out.println(signature);
     }
 
 

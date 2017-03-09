@@ -76,9 +76,10 @@ public class Encrypt {
     }
 
 
-    public static HashMap<String, String> jsontoHashmap(Object object) {
+    public static HashMap<String, String> jsonToHashMap(Object object) {
         HashMap<String, String> data = new HashMap<String, String>();
         JSONObject o = new JSONObject(object);
+        //    System.out.println(o.toString());
         Iterator Iterator = o.keys();
         while (Iterator.hasNext()) {
             String key = Iterator.next().toString();
@@ -98,19 +99,34 @@ public class Encrypt {
         return data;
     }
 
+    public static HashMap<String, String> jsonToHashMap(String object) {
+        HashMap<String, String> data = new HashMap<String, String>();
+        JSONObject o = new JSONObject(object);
+        //    System.out.println(o.toString());
+        Iterator Iterator = o.keys();
+        while (Iterator.hasNext()) {
+            String key = Iterator.next().toString();
+            if (out.contains(key)) {
+                JSONObject o1 = o.getJSONObject(key);
+                Iterator iterator = o1.keys();
+                while (iterator.hasNext()) {
+                    String key1 = iterator.next().toString();
+                    String value = o1.getString(key1);
+                    data.put(key1, value);
+                }
+            } else if (!key.equals("signature")) {
+                String value = o.getString(key);
+                data.put(key, value);
+            }
+        }
+        return data;
+    }
+
+
     public static String sort(HashMap<String, String> hashmap) {
         String data = "";
-        List<String> list = new ArrayList<String>();
         Iterator iterator = hashmap.keySet().iterator();
-        while (iterator.hasNext()) {
-            list.add(iterator.next().toString());
-        }
-        Collections.sort(list, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        List<String> list = sortIterator(iterator);
         for (int i = 0; i < list.size(); i++) {
 
             if (i < list.size() - 1)
@@ -121,6 +137,20 @@ public class Encrypt {
         return data;
     }
 
+
+    public static List<String> sortIterator(Iterator iterator) {
+        List<String> list = new ArrayList<String>();
+        while (iterator.hasNext()) {
+            list.add(iterator.next().toString());
+        }
+        Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        return list;
+    }
 
     public static String rsaSign(String content, String encrytType, String encryptKey, String encryptCharset) throws AesEncyption {
         if (encrytType.equals(RSAEncrypt))
@@ -158,7 +188,7 @@ public class Encrypt {
             boolean bverify = signature.verify(Base64.decodeBase64(sign));
             return bverify;
         } catch (Exception e) {
-            throw new AesEncyption("验签失败" + e.getMessage()+e.getStackTrace());
+            throw new AesEncyption("验签失败" + e.getMessage() + e.getStackTrace());
         }
     }
 
